@@ -1,0 +1,21 @@
+name: omnial
+
+settings:
+  GENERATE_INFOPLIST_FILE: YES
+  MARKETING_VERSION: 0.0.0
+  CURRENT_PROJECT_VERSION: 0.0.0
+options:
+  bundleIdPrefix: com.omnial
+packages:
+  Alamofire:
+    url: https://github.com/Alamofire/Alamofire
+    majorVersion: 5.5.0
+targets:
+  omnial:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+
+    sources:
+      - path: ./core
+        
