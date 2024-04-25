@@ -8,7 +8,11 @@
 import Foundation
 
 class ReservationViewModel: ObservableObject {
-    @Published private(set) var reservationModel = ReservationModel()
+    @Published private(set) var reservationModel : ReservationModel
+    
+    init(model: ReservationModel){
+        self.reservationModel = model
+    }
     
     var reservations: [ReservationModel.Reservation]{
         reservationModel.reservations

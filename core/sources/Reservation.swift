@@ -31,7 +31,7 @@ struct ReservationModel {
     }
 
 }
-
+/*
 struct Reservation: Identifiable, Codable, Hashable {
     var id: Int = 0
     var roomId: Int = 0
@@ -39,4 +39,4 @@ struct Reservation: Identifiable, Codable, Hashable {
     var time1: String = ""
     var time2: String = ""
     var date: String = ""
-}
+}*/

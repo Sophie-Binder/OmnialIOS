@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+fileprivate let model = ReservationModel()
+
 
 @main
 struct omnialApp: App {
+        var viewModel = ReservationViewModel(model: model)
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: viewModel)
         }
     }
 }
