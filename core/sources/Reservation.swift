@@ -22,12 +22,12 @@ struct ReservationModel {
     
     private (set) var reservations = [Reservation()]
     
-    struct ReservationArray: Decodable {
+    /*struct ReservationArray: Decodable {
         var reservations: [Reservation] = []
-    }
+    }*/
     
-    mutating func setRecipes(_ loadedReservations: ReservationArray){
-        reservations = loadedReservations.reservations
+    mutating func setRecipes(_ loadedReservations: [Reservation]){
+        reservations = loadedReservations
     }
 
 }

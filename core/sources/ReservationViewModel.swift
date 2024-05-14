@@ -18,7 +18,7 @@ class ReservationViewModel: ObservableObject {
         reservationModel.reservations
     }
     
-    func reservationLoaded(_ reservations: ReservationModel.ReservationArray){
+    func reservationLoaded(_ reservations: [ReservationModel.Reservation]){
         reservationModel.setRecipes(reservations)
     }
     

@@ -11,6 +11,8 @@ import SwiftUI
 struct CalendarView: View {
     
     @ObservedObject var viewModel : ReservationViewModel
+    @State var message: String = ""
+    @State var isActive: Bool = false
     
  
     
@@ -77,17 +79,19 @@ struct CalendarView: View {
     //var currentWeekDays: [Date] = getAllDaysOfTheCurrentWeek()
     
     
+   
     
     
     var body: some View{
-        
         let newReservations: [ReservationModel.Reservation] = viewModel.reservations
+
+        ZStack {
         
-        
+
         VStack(alignment: .leading, spacing: 0){
 
-            
-            
+
+
             HStack{
                 Text("Fotostudio")
                     .font(.system(size: 35))
@@ -97,12 +101,12 @@ struct CalendarView: View {
                     .font(.system(size: 25))
                     .foregroundColor(.white)
                     .padding(.leading, 20)
-                    
+
             }.frame(alignment: .leading)
             .frame(width: 395)
             .frame(height: 80)
             .background(Color(red: 30/255, green: 68/255, blue: 77/255, opacity: 1))
-            
+
             HStack(spacing: 10){
                 Group(){
                     Divider()
@@ -120,7 +124,7 @@ struct CalendarView: View {
                             .overlay(.gray)
                     }.frame(width: 30, alignment: .center)
                 }*/
-                
+
                 Group{
                     Text("1.")
                         .frame(width: 30)
@@ -144,7 +148,7 @@ struct CalendarView: View {
                         .frame(height: 25.0)
                         .frame(width: 3)
                         .overlay(.gray)
-                
+
                 }.frame(width: 30)
                 Group{
                     Text("4.")
@@ -159,7 +163,7 @@ struct CalendarView: View {
                         .frame(width: 30)
                 }.frame(width: 30)
             }
-            
+
             HStack(spacing: 10){
                 Group{
                     Divider()
@@ -211,12 +215,12 @@ struct CalendarView: View {
             Divider()
                 .frame(minHeight: 3)
                 .overlay(.gray)
-            
+
             ScrollView{
-                
+
                 VStack( alignment: .leading, spacing: 0){
                     ForEach(0..<17){ number in
-                            
+
                         HStack(spacing: 10){
                             HStack{
                                 VStack(spacing: 20){
@@ -234,25 +238,34 @@ struct CalendarView: View {
                                     .overlay(.gray)
                             }.frame(width: 35, alignment: .trailing)
                                 .frame(height: 60)
-                            
+
                             ForEach(0..<4){ number2 in
-                                
+
                                 Group{
                                     if reservations.contains( where: {$0.date == dates[number2] && $0.time1 == times[number][0] && $0.time2 == times[number][1]})
                                         {
+                                        Button {
+                                            isActive = true
+                                            message = "Your Reservation is on in \(dates[number2]) from \(times[number][0]) to \(times[number][1])"
+                                        } label: {
+                                            ZStack {
+                                                RoundedRectangle(cornerRadius: 10)
+                                                    .fill(Color(red: 245/255, green: 185/255, blue: 99/255, opacity: 2))
+                                                    .frame(width: 70, height: 55, alignment: .leading)
+                                            }
+                                        }
                                         
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color(red: 245/255, green: 185/255, blue: 99/255, opacity: 2))
-                                            .frame(width: 70, height: 55, alignment: .leading)
-                                            
-                                            
+
+                                       
+
+
                                     }else {
                                         RoundedRectangle(cornerRadius: 10)
                                             .fill(.white)
                                     }
-                                    
-                                    
-                                    
+
+
+
                                     Divider()
                                         .frame(height:60.0)
                                         .frame(width: 3)
@@ -263,19 +276,19 @@ struct CalendarView: View {
                                     let reservations = await loadAllReservations(weekDay: "01.04.2023");
                                     viewModel.reservationLoaded(reservations)
                                 }
-                            
+
                         }.frame(height: 60)
-                        
-                        
+
+
                         Divider()
                             .frame(minHeight: 3)
                             .overlay(.gray)
-                        
+
                     }
                 }
             }
-                
-                
+
+
             /*HStack(spacing: 10){times[number][0] == reservations[0].time1 && times[number][1] == reservations[0].time2 && dates[number2] == reservations[0].date
                 HStack{
                     VStack(spacing: 20){
@@ -349,8 +362,14 @@ struct CalendarView: View {
                 .frame(minHeight: 5)
                 .overlay(.gray)*/
         }
-        
+            if isActive {
+                CustomDialog(isActive: $isActive, title: "Reservation", message: message, buttonTitle: "OK", action: {print("Works")})
+                    .zIndex(1)
+            }
+
+        }
     }
+
 }
 
 struct CalendarView_Previews: PreviewProvider {

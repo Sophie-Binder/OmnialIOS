@@ -9,10 +9,27 @@ import Foundation
 import SwiftUI
 
 struct ProfileView: View {
-    var body: some View{
-        Text("Profile")
-    }
     
+    @State var isActive: Bool = false
+    
+    var body: some View{
+        
+        
+        ZStack{
+            VStack{
+                Button {
+                    isActive = true
+                } label: {
+                    Text("show")
+                }
+            }
+            if isActive {
+                CustomDialog(isActive: $isActive, title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {print("Works")})
+                    .zIndex(1)
+            }
+        }
+    
+    }
 }
 
 struct ProfileView_Previews: PreviewProvider {
@@ -20,3 +37,15 @@ struct ProfileView_Previews: PreviewProvider {
         ProfileView()
     }
 }
+
+
+/*Text("Profile")
+Button("Bordered Prominent Button") {
+
+   }
+   .buttonStyle(.borderedProminent)
+   .buttonBorderShape(.roundedRectangle(radius: 8))
+   .alert("Important message", isPresented: $showingAlert) {
+       Button("OK") { }
+   }
+}*/
