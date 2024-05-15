@@ -22,6 +22,16 @@ class ReservationViewModel: ObservableObject {
         reservationModel.setRecipes(reservations)
     }
     
+    func getReservationByDateTime(date: String, time1: String, time2: String) -> ReservationModel.Reservation {
+        var res: ReservationModel.Reservation = ReservationModel.Reservation()
+        reservations.forEach { reservation in
+            if reservation.date == date && reservation.time1 == time1 && reservation.time2 == time2 {
+                res =  reservation
+            }
+        }
+        return res
+    }
+    
     
     
 }

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct CustomDialog: View{
+struct CustomDialogEdit: View{
     
     @Binding var isActive: Bool
     
@@ -16,24 +16,58 @@ struct CustomDialog: View{
     let message: String
     let buttonTitle: String
     let action: () -> ()
-    let buttonTitle2: String?
-    let action2: () -> ()?
+    let currReservation: ReservationModel.Reservation?
     @State private var offset: CGFloat = 1000
+    @State private var selection = "Fotostudio"
+    @State  var currdate: Date
+    @State  var currentDate1: Date
+    @State  var currentDate2: Date
+    
+
+    
+    
+    let rooms = ["Fotostudio", "Musikraum", "Vioschnittraum"]
+    
+   
     
     var body: some View {
+        
+        
+        
+        
         ZStack {
+          
+            
             Color(.white)
                 .opacity(0.1)
                 .onTapGesture {
                     close()
                 }
             VStack{
+            
+                
                 Text(title)
                     .font(.title2)
                     .bold()
                     .padding()
                 Text(message)
                     .font(.body)
+                
+                
+                Picker("Select a room", selection: $selection) {
+                               ForEach(rooms, id: \.self) {
+                                   Text($0)
+                               }
+                           }
+                           .pickerStyle(.menu)
+                
+                DatePicker(selection: $currdate, displayedComponents: .date) {
+                                Text("Select a date")
+                            }
+                
+                DatePicker("Select starting Time", selection: $currentDate1, displayedComponents: .hourAndMinute)
+                DatePicker("Select ending Time", selection: $currentDate2, displayedComponents: .hourAndMinute)
+
                 
                 Button {
                     action()
@@ -45,20 +79,6 @@ struct CustomDialog: View{
                             .padding()
                     }
                     .padding()
-                }
-                
-                if(buttonTitle2 != nil){
-                    Button {
-                        action2()
-                        close()
-                    } label: {
-                        ZStack {
-                            Text(buttonTitle2!)
-                                .font(.system(size: 16, weight: .bold))
-                                .padding()
-                        }
-                        .padding()
-                    }
                 }
                 
             }
@@ -94,6 +114,8 @@ struct CustomDialog: View{
             }
         }
     }
+    
+    
     func close() {
         withAnimation(.spring()) {
             offset = 1000
@@ -103,8 +125,8 @@ struct CustomDialog: View{
 
 }
 
-struct CustomDialog_Previews: PreviewProvider {
+struct CustomDialogEdit_Previews: PreviewProvider {
     static var previews: some View {
-        CustomDialog(isActive: .constant(true), title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {}, buttonTitle2: "2", action2: {})
+        CustomDialogEdit(isActive: .constant(true), title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {}, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
     }
 }

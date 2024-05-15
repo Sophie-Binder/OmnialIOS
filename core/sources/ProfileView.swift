@@ -24,7 +24,7 @@ struct ProfileView: View {
                 }
             }
             if isActive {
-                CustomDialog(isActive: $isActive, title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {print("Works")})
+                CustomDialog(isActive: $isActive, title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {print("Works")}, buttonTitle2: nil, action2: {})
                     .zIndex(1)
             }
         }

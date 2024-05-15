@@ -13,13 +13,20 @@ struct CalendarView: View {
     @ObservedObject var viewModel : ReservationViewModel
     @State var message: String = ""
     @State var isActive: Bool = false
+    @State var isActive2: Bool = false
+    @State var isActive3: Bool = false
     
- 
+    @State var currRes: ReservationModel.Reservation = ReservationModel.Reservation()
+    
+    @State  var currdate: Date = Date.now
+    @State  var currentDate1: Date = Date()
+    @State  var currentDate2: Date = Date()
     
     
     let reservations: [ReservationModel.Reservation]  = [ReservationModel.Reservation(id: 1, roomId: 1, personId: 1, time1: "11:50", time2: "12:40", date: "02.03.2024"), ReservationModel.Reservation(id: 2, roomId: 1, personId: 1, time1: "14:35", time2: "15:25", date: "02.03.2024"),ReservationModel.Reservation(id: 3, roomId: 1, personId: 1, time1: "08:00", time2: "08:50", date: "03.03.2024"),ReservationModel.Reservation(id: 4, roomId: 1, personId: 1, time1: "11:50", time2: "12:40", date: "03.03.2024"),ReservationModel.Reservation(id: 5, roomId: 1, personId: 1, time1: "07:05", time2: "07:55", date: "04.03.2024")
     ]
     
+    let dateFormatter1 = DateFormatter()
 
     
     var times = [
@@ -85,13 +92,13 @@ struct CalendarView: View {
     var body: some View{
         let newReservations: [ReservationModel.Reservation] = viewModel.reservations
 
-        ZStack {
+        ZStack(alignment: .bottomTrailing) {
         
 
         VStack(alignment: .leading, spacing: 0){
 
 
-
+            
             HStack{
                 Text("Fotostudio")
                     .font(.system(size: 35))
@@ -246,7 +253,14 @@ struct CalendarView: View {
                                         {
                                         Button {
                                             isActive = true
-                                            message = "Your Reservation is on in \(dates[number2]) from \(times[number][0]) to \(times[number][1])"
+                                            message = "Your Reservation is on \(dates[number2]) from \(times[number][0]) to \(times[number][1])"
+                                            currRes = viewModel.getReservationByDateTime(date: dates[number2], time1: times[number][0], time2: times[number][1])
+                                            dateFormatter1.dateFormat = "dd.MM.yyyy"
+                                            currdate = dateFormatter1.date(from: dates[number2])!
+                                            dateFormatter1.dateFormat = "dd.MM.yyyy HH:mm"
+                                            currentDate1 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][0])")!
+                                            currentDate2 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][1])")!
+                                            
                                         } label: {
                                             ZStack {
                                                 RoundedRectangle(cornerRadius: 10)
@@ -287,85 +301,39 @@ struct CalendarView: View {
                     }
                 }
             }
-
-
-            /*HStack(spacing: 10){times[number][0] == reservations[0].time1 && times[number][1] == reservations[0].time2 && dates[number2] == reservations[0].date
-                HStack{
-                    VStack(spacing: 20){
-                            Text("07:05")
-                                .frame( alignment: .top)
-                                .font(.system(size: 7))
-            
-                            Text("07:55")
-                                .frame( alignment: .bottom)
-                                .font(.system(size: 7))
-                    }.frame(width: 20)
-                    Divider()
-                        .frame(height: 40.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }.frame(width: 25, alignment: .trailing)
-                    .border(Color.green)
-                
-                Group{
-                    Divider()
-                        .frame(height: 20.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }.frame(width: 25, alignment: .trailing)
-                    .border(Color.red)
-                
-                Group{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                    Divider()
-                        .frame(height: 50.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                
-                Group{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 40)
-                    Divider()
-                        .frame(height: 50.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                
-                Group{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 40)
-                    Divider()
-                        .frame(height: 50.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }
-                Group{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 40)
-                    Divider()
-                        .frame(height: 50.0)
-                        .frame(width: 5)
-                        .overlay(.gray)
-                }
-                Group{
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.white)
-                        .frame(width: 40)
-                }
-            }.frame(height: 50, alignment: .center)
-            Divider()
-                .frame(minHeight: 5)
-                .overlay(.gray)*/
+          
         }
+            Button {
+                              isActive3 = true
+                          } label: {
+                              Image(systemName: "plus")
+                                  .font(.title.weight(.semibold))
+                                  .padding()
+                                  .background(Color(red: 245/255, green: 185/255, blue: 99/255, opacity: 2))
+                                  .foregroundColor(.white)
+                                  .clipShape(Circle())
+                                  .shadow(radius: 4, x: 0, y: 4)
+
+                          }
+                          .padding()
             if isActive {
-                CustomDialog(isActive: $isActive, title: "Reservation", message: message, buttonTitle: "OK", action: {print("Works")})
+                CustomDialog(isActive: $isActive, title: "Reservation", message: message, buttonTitle: "Edit", action: {
+                       isActive2 = true
+                    
+                }, buttonTitle2: "Delete", action2: {})
                     .zIndex(1)
             }
+            
+            if isActive2 {
+                
+                CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: currRes, currdate: currdate, currentDate1: currentDate1, currentDate2: currentDate2)
+            }
+            
+            if isActive3 {
+                
+                CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
+            }
+
 
         }
     }
