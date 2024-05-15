@@ -9,15 +9,16 @@ import Foundation
 
 
 func loadAllReservations(weekDay: String) async -> [ReservationModel.Reservation] {
+
     let reservationUrlString = "http://localhost:8080/api/reservations/week/"+weekDay
     let url = URL(string: reservationUrlString)!
     var reservations = [ReservationModel.Reservation]()
     if let (data, _) = try? await URLSession.shared.data(from: url) {
-        
         if let loadedReservations = try? JSONDecoder().decode([ReservationModel.Reservation].self, from: data) {
             reservations = loadedReservations
         } else {
             print("failed3")
+            print(url)
         }
     } else {
         print("failed1")

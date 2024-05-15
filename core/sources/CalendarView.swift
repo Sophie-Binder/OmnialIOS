@@ -23,39 +23,39 @@ struct CalendarView: View {
     @State  var currentDate2: Date = Date()
     
     
-    let reservations: [ReservationModel.Reservation]  = [ReservationModel.Reservation(id: 1, roomId: 1, personId: 1, time1: "11:50", time2: "12:40", date: "02.03.2024"), ReservationModel.Reservation(id: 2, roomId: 1, personId: 1, time1: "14:35", time2: "15:25", date: "02.03.2024"),ReservationModel.Reservation(id: 3, roomId: 1, personId: 1, time1: "08:00", time2: "08:50", date: "03.03.2024"),ReservationModel.Reservation(id: 4, roomId: 1, personId: 1, time1: "11:50", time2: "12:40", date: "03.03.2024"),ReservationModel.Reservation(id: 5, roomId: 1, personId: 1, time1: "07:05", time2: "07:55", date: "04.03.2024")
+    let reservations: [ReservationModel.Reservation]  = [ReservationModel.Reservation(id: 1, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "02.03.2024"), ReservationModel.Reservation(id: 2, roomId: 1, personId: 1, startTime: "14:35", endTime: "15:25", reservationDate: "02.03.2024"),ReservationModel.Reservation(id: 3, roomId: 1, personId: 1, startTime: "08:00", endTime: "08:50", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 4, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 5, roomId: 1, personId: 1, startTime: "07:05", endTime: "07:55", reservationDate: "04.03.2024")
     ]
     
     let dateFormatter1 = DateFormatter()
 
     
     var times = [
-          ["07:05","07:55"],
-          ["08:00","08:50"],
-          ["09:55","09:45"],
-          ["10:00","10:50"],
-          ["10:45","11:45"],
-          ["11:50","12:40"],
-          ["12:45","13:35"],
-          ["13:40","14:30"],
-          ["14:35","15:25"],
-          ["15:30","16:20"],
-          ["16:25","17:15"],
-          ["17:20","18:05"],
-          ["18:05","18:50"],
-          ["19:00","19:45"],
-          ["19:45","20:30"],
-          ["20:40","21:25"],
-          ["21:25","22:10"]
+          ["07:05:00","07:55:00"],
+          ["08:00:00","08:50:00"],
+          ["09:55:00","09:45:00"],
+          ["10:00:00","10:50:00"],
+          ["10:45:00","11:45:00"],
+          ["11:50:00","12:40:00"],
+          ["12:45:00","13:35:00"],
+          ["13:40:00","14:30:00"],
+          ["14:35:00","15:25:00"],
+          ["15:30:00","16:20:00"],
+          ["16:25:00","17:15:00"],
+          ["17:20:00","18:05:00"],
+          ["18:05:00","18:50:00"],
+          ["19:00:00","19:45:00"],
+          ["19:45:00","20:30:00"],
+          ["20:40:00","21:25:00"],
+          ["21:25:00","22:10:00"]
     
      ]
    
       var dates = [
-        "01.03.2024",
-        "02.03.2024",
-        "03.03.2024",
-        "04.03.2024",
-        "05.03.2024",
+        "2024-03.01",
+        "2024-03-02",
+        "2024-03-03",
+        "2023-03-04",
+        "2024-03-05",
         
       ]
     
@@ -249,15 +249,15 @@ struct CalendarView: View {
                             ForEach(0..<4){ number2 in
 
                                 Group{
-                                    if reservations.contains( where: {$0.date == dates[number2] && $0.time1 == times[number][0] && $0.time2 == times[number][1]})
+                                    if viewModel.reservations.contains( where: {$0.reservationDate == dates[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1]})
                                         {
                                         Button {
                                             isActive = true
                                             message = "Your Reservation is on \(dates[number2]) from \(times[number][0]) to \(times[number][1])"
                                             currRes = viewModel.getReservationByDateTime(date: dates[number2], time1: times[number][0], time2: times[number][1])
-                                            dateFormatter1.dateFormat = "dd.MM.yyyy"
+                                            dateFormatter1.dateFormat = "yyyy-MM-dd"
                                             currdate = dateFormatter1.date(from: dates[number2])!
-                                            dateFormatter1.dateFormat = "dd.MM.yyyy HH:mm"
+                                            dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
                                             currentDate1 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][0])")!
                                             currentDate2 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][1])")!
                                             
@@ -268,17 +268,11 @@ struct CalendarView: View {
                                                     .frame(width: 70, height: 55, alignment: .leading)
                                             }
                                         }
-                                        
-
-                                       
-
 
                                     }else {
                                         RoundedRectangle(cornerRadius: 10)
                                             .fill(.white)
                                     }
-
-
 
                                     Divider()
                                         .frame(height:60.0)
@@ -286,10 +280,7 @@ struct CalendarView: View {
                                         .overlay(.gray)
                                 }.frame(width: 30, alignment: .center)
                             }.frame(width: 30, alignment: .center)
-                                .task{
-                                    let reservations = await loadAllReservations(weekDay: "01.04.2023");
-                                    viewModel.reservationLoaded(reservations)
-                                }
+                               
 
                         }.frame(height: 60)
 
@@ -300,6 +291,10 @@ struct CalendarView: View {
 
                     }
                 }
+            } .task{
+                let reservations = await loadAllReservations(weekDay: "2024-03-01");
+                viewModel.reservationLoaded(reservations)
+                print(viewModel.reservations)
             }
           
         }
@@ -331,7 +326,7 @@ struct CalendarView: View {
             
             if isActive3 {
                 
-                CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
+                CustomDialogEdit(isActive: $isActive3, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
             }
 
 

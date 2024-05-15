@@ -7,15 +7,16 @@
 
 import Foundation
 
+
 struct ReservationModel {
     
     struct Reservation: Identifiable, Codable, Hashable {
         var id: Int = 0
         var roomId: Int = 0
         var personId: Int = 0
-        var time1: String = ""
-        var time2: String = ""
-        var date: String = ""
+        var startTime: String = ""
+        var endTime: String = ""
+        var reservationDate: String = ""
     }
     
     private (set) var reservation = Reservation()
@@ -26,7 +27,9 @@ struct ReservationModel {
         var reservations: [Reservation] = []
     }*/
     
-    mutating func setRecipes(_ loadedReservations: [Reservation]){
+    
+    mutating func setReservations(_ loadedReservations: [ReservationModel.Reservation]){
+        
         reservations = loadedReservations
     }
 
