@@ -7,14 +7,16 @@
 
 import SwiftUI
 fileprivate let model = ReservationModel()
+fileprivate let modelRoom = RoomModel()
 
 
 @main
 struct omnialApp: App {
-        var viewModel = ReservationViewModel(model: model)
+    var viewModel = ReservationViewModel(model: model)
+    var viewModelRoom = RoomViewModel(model: modelRoom)
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            ContentView(viewModel: viewModel, viewModelRoom: viewModelRoom)
         }
     }
 }

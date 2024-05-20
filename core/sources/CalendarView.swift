@@ -11,6 +11,7 @@ import SwiftUI
 struct CalendarView: View {
     
     @ObservedObject var viewModel : ReservationViewModel
+    @ObservedObject var viewModelRoom : RoomViewModel
     @State var message: String = ""
     @State var isActive: Bool = false
     @State var isActive2: Bool = false
@@ -21,6 +22,9 @@ struct CalendarView: View {
     @State  var currdate: Date = Date.now
     @State  var currentDate1: Date = Date()
     @State  var currentDate2: Date = Date()
+    
+    @State private var selection = "Fotostudio"
+  
     
     
     let reservations: [ReservationModel.Reservation]  = [ReservationModel.Reservation(id: 1, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "02.03.2024"), ReservationModel.Reservation(id: 2, roomId: 1, personId: 1, startTime: "14:35", endTime: "15:25", reservationDate: "02.03.2024"),ReservationModel.Reservation(id: 3, roomId: 1, personId: 1, startTime: "08:00", endTime: "08:50", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 4, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 5, roomId: 1, personId: 1, startTime: "07:05", endTime: "07:55", reservationDate: "04.03.2024")
@@ -91,6 +95,8 @@ struct CalendarView: View {
     
     var body: some View{
         let newReservations: [ReservationModel.Reservation] = viewModel.reservations
+        let rooms:[String] = viewModelRoom.getRoomNames()
+           
 
         ZStack(alignment: .bottomTrailing) {
         
@@ -100,10 +106,20 @@ struct CalendarView: View {
 
             
             HStack{
+                /*
                 Text("Fotostudio")
                     .font(.system(size: 35))
                     .foregroundColor(.white)
                     .padding(.trailing, 50)
+                 */
+                Picker("", selection: $selection){
+                               ForEach(rooms, id: \.self) {
+                                   Text($0)
+                               }
+                           }
+                .pickerStyle(.menu)
+                
+                
                 Text(currentDate.formatted(Date.FormatStyle().month(.wide)))
                     .font(.system(size: 25))
                     .foregroundColor(.white)
@@ -231,6 +247,7 @@ struct CalendarView: View {
                         HStack(spacing: 10){
                             HStack{
                                 VStack(spacing: 20){
+                                  
                                     Text("\(times[number][0])")
                                         .font(.system(size: 6))
                                         .padding(.leading, 1)
@@ -295,6 +312,10 @@ struct CalendarView: View {
                 let reservations = await loadAllReservations(weekDay: "2024-03-01");
                 viewModel.reservationLoaded(reservations)
                 print(viewModel.reservations)
+                
+                let rooms = await loadAllRooms();
+                viewModelRoom.roomsLoaded(rooms)
+                print(viewModelRoom.rooms)
             }
           
         }
@@ -336,10 +357,14 @@ struct CalendarView: View {
 }
 
 struct CalendarView_Previews: PreviewProvider {
-    static var model = ReservationModel()
+        static var model = ReservationModel()
         static var viewModel = ReservationViewModel(model: model)
+    
+        static var modelRoom = RoomModel()
+        static var viewModelRoom = RoomViewModel(model: modelRoom)
+    
         static var previews: some View {
-        CalendarView(viewModel: viewModel)
+        CalendarView(viewModel: viewModel, viewModelRoom: viewModelRoom)
     }
 }
 

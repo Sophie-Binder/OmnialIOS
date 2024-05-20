@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		02BB52EDF250CEDA30BD58CE /* ReservationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6647513A2D5C2EFECDB40EE4 /* ReservationService.swift */; };
+		111CC26F2BFB95CE0090412F /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC26E2BFB95CE0090412F /* Room.swift */; };
+		111CC2712BFB95E20090412F /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2702BFB95E20090412F /* Person.swift */; };
+		111CC2732BFB97C80090412F /* RoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2722BFB97C80090412F /* RoomViewModel.swift */; };
+		111CC2752BFB97DC0090412F /* PersonViewMoldel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2742BFB97DC0090412F /* PersonViewMoldel.swift */; };
+		111CC2772BFB9ABF0090412F /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2762BFB9ABF0090412F /* RoomService.swift */; };
 		115F73072BF3F3C10040C392 /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115F73062BF3F3C10040C392 /* CustomDialog.swift */; };
-		119381B52BE29A3E008D6EE9 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119381B42BE29A3E008D6EE9 /* AlertView.swift */; };
-		119381B72BE2AF56008D6EE9 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119381B62BE2AF56008D6EE9 /* Alert.swift */; };
 		11F62FBB2BF52E810010894C /* CustomeDialogEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */; };
 		19E30ACF8DE44BFFDF032B2C /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7640124845DE72FA60CFCDD1 /* Reservation.swift */; };
 		1E19B07BCF4C562E013A6573 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21BE66DE1C8F9606C95A617 /* ContentView.swift */; };
@@ -22,10 +25,13 @@
 
 /* Begin PBXFileReference section */
 		03C97C2DEAD89F56121A8A69 /* Ominal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ominal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		111CC26E2BFB95CE0090412F /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		111CC2702BFB95E20090412F /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		111CC2722BFB97C80090412F /* RoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewModel.swift; sourceTree = "<group>"; };
+		111CC2742BFB97DC0090412F /* PersonViewMoldel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonViewMoldel.swift; sourceTree = "<group>"; };
+		111CC2762BFB9ABF0090412F /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
 		115F73062BF3F3C10040C392 /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		119381B32BE29466008D6EE9 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
-		119381B42BE29A3E008D6EE9 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
-		119381B62BE2AF56008D6EE9 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeDialogEdit.swift; sourceTree = "<group>"; };
 		1254ADD015AE0AA00D456C96 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		6647513A2D5C2EFECDB40EE4 /* ReservationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationService.swift; sourceTree = "<group>"; };
@@ -64,10 +70,13 @@
 				7640124845DE72FA60CFCDD1 /* Reservation.swift */,
 				6647513A2D5C2EFECDB40EE4 /* ReservationService.swift */,
 				7A7E715FBC399B796D193515 /* ReservationViewModel.swift */,
-				119381B42BE29A3E008D6EE9 /* AlertView.swift */,
-				119381B62BE2AF56008D6EE9 /* Alert.swift */,
 				115F73062BF3F3C10040C392 /* CustomDialog.swift */,
 				11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */,
+				111CC26E2BFB95CE0090412F /* Room.swift */,
+				111CC2702BFB95E20090412F /* Person.swift */,
+				111CC2722BFB97C80090412F /* RoomViewModel.swift */,
+				111CC2742BFB97DC0090412F /* PersonViewMoldel.swift */,
+				111CC2762BFB9ABF0090412F /* RoomService.swift */,
 			);
 			name = sources;
 			path = core/sources;
@@ -122,15 +131,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				119381B72BE2AF56008D6EE9 /* Alert.swift in Sources */,
 				D0F4BFB8C859DDE5E8A14756 /* CalendarView.swift in Sources */,
+				111CC26F2BFB95CE0090412F /* Room.swift in Sources */,
 				11F62FBB2BF52E810010894C /* CustomeDialogEdit.swift in Sources */,
 				1E19B07BCF4C562E013A6573 /* ContentView.swift in Sources */,
+				111CC2732BFB97C80090412F /* RoomViewModel.swift in Sources */,
 				2537DD78A8871DFD829237AE /* ProfileView.swift in Sources */,
+				111CC2772BFB9ABF0090412F /* RoomService.swift in Sources */,
 				115F73072BF3F3C10040C392 /* CustomDialog.swift in Sources */,
 				19E30ACF8DE44BFFDF032B2C /* Reservation.swift in Sources */,
 				02BB52EDF250CEDA30BD58CE /* ReservationService.swift in Sources */,
-				119381B52BE29A3E008D6EE9 /* AlertView.swift in Sources */,
+				111CC2712BFB95E20090412F /* Person.swift in Sources */,
+				111CC2752BFB97DC0090412F /* PersonViewMoldel.swift in Sources */,
 				E297304DF5FBF607514BFB0B /* ReservationViewModel.swift in Sources */,
 				99D778CB991BEBAF05DC70C8 /* omnialApp.swift in Sources */,
 			);

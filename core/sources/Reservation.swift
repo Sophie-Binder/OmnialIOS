@@ -21,11 +21,7 @@ struct ReservationModel {
     
     private (set) var reservation = Reservation()
     
-    private (set) var reservations = [Reservation()]
-    
-    /*struct ReservationArray: Decodable {
-        var reservations: [Reservation] = []
-    }*/
+    private (set) var reservations = [Reservation()]      
     
     
     mutating func setReservations(_ loadedReservations: [ReservationModel.Reservation]){
@@ -34,6 +30,11 @@ struct ReservationModel {
     }
 
 }
+
+/*struct ReservationArray: Decodable {
+    var reservations: [Reservation] = []
+}*/
+
 /*
 struct Reservation: Identifiable, Codable, Hashable {
     var id: Int = 0

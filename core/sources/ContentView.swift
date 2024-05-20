@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ReservationViewModel
+    @ObservedObject var viewModelRoom : RoomViewModel
+
     var body: some View {
         TabView{
-            CalendarView(viewModel: viewModel)
+            CalendarView(viewModel: viewModel, viewModelRoom: viewModelRoom)
                 .tabItem{
                     Label("Calender", systemImage: "calendar")
                 }
@@ -26,7 +28,11 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var model = ReservationModel()
         static var viewModel = ReservationViewModel(model: model)
+    
+    static var modelRoom = RoomModel()
+    static var viewModelRoom = RoomViewModel(model: modelRoom)
+
     static var previews: some View {
-        ContentView(viewModel: viewModel)
+        ContentView(viewModel: viewModel, viewModelRoom: viewModelRoom)
     }
 }

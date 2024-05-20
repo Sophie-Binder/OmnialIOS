@@ -26,3 +26,28 @@ func loadAllReservations(weekDay: String) async -> [ReservationModel.Reservation
     
     return reservations
 }
+
+func addReservation(reservation: ReservationModel.Reservation) {
+    let reservationUrlString = "http://localhost:8080/api/reservations"
+    let url = URL(string: reservationUrlString)!
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    let data = try! JSONEncoder().encode(reservation)
+    request.httpBody = data
+    request.setValue(
+        "application/json",
+        forHTTPHeaderField: "Content-Type"
+    )
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let statusCode = (response as! HTTPURLResponse).statusCode
+
+        if statusCode == 200 {
+            print("SUCCESS")
+        } else {
+            print("FAILURE")
+        }
+    }
+
+    task.resume()
+}
+
