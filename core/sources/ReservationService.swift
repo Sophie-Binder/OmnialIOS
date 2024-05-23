@@ -41,7 +41,7 @@ func addReservation(reservation: ReservationModel.Reservation) {
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
         let statusCode = (response as! HTTPURLResponse).statusCode
 
-        if statusCode == 200 {
+        if statusCode == 200 ||  statusCode == 204{
             print("SUCCESS")
         } else {
             print("FAILURE")

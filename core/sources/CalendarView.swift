@@ -31,6 +31,7 @@ struct CalendarView: View {
     ]
     
     let dateFormatter1 = DateFormatter()
+    
 
     
     var times = [
@@ -62,6 +63,31 @@ struct CalendarView: View {
         "2024-03-05",
         
       ]
+    
+    func serverToLocalTime(date:String) -> Date? {
+        
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS Z"
+        dateFormatter.timeZone = TimeZone(abbreviation: "CET")
+        
+        dateFormatter.timeZone = TimeZone.current
+        let date = dateFormatter.date(from: date)
+        let timeStamp = dateFormatter.string(from: date!)
+        print(date!)
+        return date
+    
+       
+    }
+    
+    func serverToLocal(date:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        let localDate = dateFormatter.date(from: date)
+
+        return localDate
+    }
     
     let currentDate = Date()
     
@@ -342,12 +368,32 @@ struct CalendarView: View {
             
             if isActive2 {
                 
-                CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: currRes, currdate: currdate, currentDate1: currentDate1, currentDate2: currentDate2)
+                CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {
+                   
+                }, currReservation: currRes, currdate: currdate, currentDate1: currentDate1, currentDate2: currentDate2)
             }
             
             if isActive3 {
                 
-                CustomDialogEdit(isActive: $isActive3, title: "Reservation", message: "", buttonTitle: "Speicher", action: {}, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
+                CustomDialogEdit(isActive: $isActive3, title: "Reservation", message: "", buttonTitle: "Speicher", action: {
+                    //addReservation(reservation: ReservationModel.ReservationDTO( roomId: 1, personId: 1, startTime: serverToLocalTime(date: "2024-03-02 12:45:00.000000 +1")!, endTime: serverToLocalTime(date: "2024-03-02 13:35:00.000000 +1")!, reservationDate: serverToLocalTime(date: "2024-03-02 13:35:00.000000 +1")!))
+                    addReservation(reservation: ReservationModel.Reservation( roomId: 1, personId: 1, startTime: "2024-03-04T12:45:00", endTime: "2024-03-04T13:35:00", reservationDate: "2024-03-02"))
+                   
+
+                    Task {
+                         do {
+                             try await Task.sleep(nanoseconds: 1_000_000_000)
+                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             viewModel.reservationLoaded(reservations)
+                             print("DFFGDERFG")
+                         }
+                         catch {
+                             print(error)
+                         }
+                     }
+                    //let reservations = try? await loadAllReservations(weekDay: "2024-03-01");
+                    
+                }, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
             }
 
 

@@ -11,6 +11,7 @@ import SwiftUI
 struct CustomDialogEdit: View{
     
     @Binding var isActive: Bool
+    //@Binding var reservation: ReservationModel.Reservation
     
     let title: String
     let message: String
@@ -121,6 +122,7 @@ struct CustomDialogEdit: View{
             offset = 1000
             isActive = false
         }
+        
     }
 
 }
