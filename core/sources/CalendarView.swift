@@ -20,8 +20,8 @@ struct CalendarView: View {
     @State var currRes: ReservationModel.Reservation = ReservationModel.Reservation()
     
     @State  var currdate: Date = Date.now
-    @State  var currentDate1: Date = Date()
-    @State  var currentDate2: Date = Date()
+    @State  var currentDate1: Date = Date.now
+    @State  var currentDate2: Date = Date.now
     
     @State private var selection = "Fotostudio"
   
@@ -31,6 +31,7 @@ struct CalendarView: View {
     ]
     
     let dateFormatter1 = DateFormatter()
+    let dateFormatter2 = DateFormatter()
     
 
     
@@ -362,23 +363,66 @@ struct CalendarView: View {
                 CustomDialog(isActive: $isActive, title: "Reservation", message: message, buttonTitle: "Edit", action: {
                        isActive2 = true
                     
-                }, buttonTitle2: "Delete", action2: {})
+                }, buttonTitle2: "Delete", action2: {
+                    
+                    deleteReservation(id: currRes.id)
+                    
+                    Task {
+                         do {
+                             try await Task.sleep(nanoseconds: 1_000_000_000)
+                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             viewModel.reservationLoaded(reservations)
+                             print("DFFGDERFG")
+                         }
+                         catch {
+                             print(error)
+                         }
+                     }
+                    
+                    
+                })
                     .zIndex(1)
             }
             
             if isActive2 {
                 
                 CustomDialogEdit(isActive: $isActive2, title: "Reservation", message: "", buttonTitle: "Speicher", action: {
+                    
+                    dateFormatter1.dateFormat = "'T'HH:mm:ss"
+                    dateFormatter2.dateFormat = "yyyy-MM-dd"
+                    
+                    updateReservation(id:  currRes.id, reservation: ReservationModel.Reservation( id: currRes.id, roomId: 1, personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
+                    
+                    Task {
+                         do {
+                             try await Task.sleep(nanoseconds: 1_000_000_000)
+                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             viewModel.reservationLoaded(reservations)
+                             print("DFFGDERFG")
+                         }
+                         catch {
+                             print(error)
+                         }
+                     }
                    
-                }, currReservation: currRes, currdate: currdate, currentDate1: currentDate1, currentDate2: currentDate2)
+                }, currReservation: currRes, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
             }
             
             if isActive3 {
                 
                 CustomDialogEdit(isActive: $isActive3, title: "Reservation", message: "", buttonTitle: "Speicher", action: {
-                    //addReservation(reservation: ReservationModel.ReservationDTO( roomId: 1, personId: 1, startTime: serverToLocalTime(date: "2024-03-02 12:45:00.000000 +1")!, endTime: serverToLocalTime(date: "2024-03-02 13:35:00.000000 +1")!, reservationDate: serverToLocalTime(date: "2024-03-02 13:35:00.000000 +1")!))
-                    addReservation(reservation: ReservationModel.Reservation( roomId: 1, personId: 1, startTime: "2024-03-04T12:45:00", endTime: "2024-03-04T13:35:00", reservationDate: "2024-03-02"))
-                   
+                    
+                dateFormatter1.dateFormat = "'T'HH:mm:ss"
+                dateFormatter2.dateFormat = "yyyy-MM-dd"
+                    
+                    addReservation(reservation: ReservationModel.Reservation(roomId: 1, personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
+                    
+                    currdate = Date.now
+                    currentDate1 = Date.now
+                    currentDate2 = Date.now
+                    
+                    
+
 
                     Task {
                          do {
@@ -393,7 +437,7 @@ struct CalendarView: View {
                      }
                     //let reservations = try? await loadAllReservations(weekDay: "2024-03-01");
                     
-                }, currReservation: nil, currdate: Date.now, currentDate1: Date(), currentDate2: Date())
+                }, currReservation: nil, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
             }
 
 

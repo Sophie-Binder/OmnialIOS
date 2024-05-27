@@ -17,7 +17,7 @@ struct CustomDialog: View{
     let buttonTitle: String
     let action: () -> ()
     let buttonTitle2: String?
-    let action2: () -> ()?
+    let action2: () -> ()
     @State private var offset: CGFloat = 1000
     
     var body: some View {

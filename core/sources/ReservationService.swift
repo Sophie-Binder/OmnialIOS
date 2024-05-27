@@ -28,6 +28,9 @@ func loadAllReservations(weekDay: String) async -> [ReservationModel.Reservation
 }
 
 func addReservation(reservation: ReservationModel.Reservation) {
+    print("---")
+    print(reservation)
+    print("---")
     let reservationUrlString = "http://localhost:8080/api/reservations"
     let url = URL(string: reservationUrlString)!
     var request = URLRequest(url: url)
@@ -51,3 +54,50 @@ func addReservation(reservation: ReservationModel.Reservation) {
     task.resume()
 }
 
+
+func updateReservation(id: Int ,reservation: ReservationModel.Reservation) {
+    print("---")
+    print(reservation)
+    print("---")
+    let reservationUrlString = "http://localhost:8080/api/reservations/"+"\(id)"
+    print(reservationUrlString)
+    let url = URL(string: reservationUrlString)!
+    var request = URLRequest(url: url)
+    request.httpMethod = "PUT"
+    let data = try! JSONEncoder().encode(reservation)
+    request.httpBody = data
+    request.setValue(
+        "application/json",
+        forHTTPHeaderField: "Content-Type"
+    )
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let statusCode = (response as! HTTPURLResponse).statusCode
+
+        if statusCode == 200 ||  statusCode == 204{
+            print("SUCCESS")
+        } else {
+            print("FAILURE")
+        }
+    }
+
+    task.resume()
+}
+
+func deleteReservation(id: Int) {
+    let reservationUrlString = "http://localhost:8080/api/reservations/"+"\(id)"
+    print(reservationUrlString)
+    let url = URL(string: reservationUrlString)!
+    var request = URLRequest(url: url)
+    request.httpMethod = "DELETE"
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let statusCode = (response as! HTTPURLResponse).statusCode
+
+        if statusCode == 200 ||  statusCode == 204{
+            print("SUCCESS")
+        } else {
+            print("FAILURE")
+        }
+    }
+
+    task.resume()
+}
