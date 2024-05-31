@@ -17,7 +17,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Calender", systemImage: "calendar")
                 }
-            ProfileView()
+            ProfileView(viewModel: viewModel, viewModelRoom: viewModelRoom)
                 .tabItem{
                     Label("Profile", systemImage: "person")
                 }

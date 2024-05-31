@@ -27,3 +27,21 @@ func loadAllRooms() async -> [RoomModel.Room] {
     return rooms;
 }
 
+func loadRoomById(id: Int) async -> RoomModel.Room {
+
+    let roomUrlString = "http://localhost:8080/api/rooms/\(id)"
+    let url = URL(string: roomUrlString)!
+    var room = RoomModel.Room()
+    if let (data, _) = try? await URLSession.shared.data(from: url) {
+        if let loadedRoom = try? JSONDecoder().decode(RoomModel.Room.self, from: data) {
+            room = loadedRoom
+        } else {
+            print("failed3")
+            print(url)
+        }
+    } else {
+        print("failed1")
+    }
+    
+    return room;
+}
