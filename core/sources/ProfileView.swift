@@ -123,7 +123,7 @@ struct ProfileView: View {
                      }
                     //let reservations = try? await loadAllReservations(weekDay: "2024-03-01");
                     
-                }, currReservation: nil, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
+                }, currReservation: nil, selection: .constant("Fotostudio"),currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
             }
             
         }

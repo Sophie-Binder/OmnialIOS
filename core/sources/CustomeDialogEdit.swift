@@ -19,7 +19,7 @@ struct CustomDialogEdit: View{
     let action: () -> ()
     let currReservation: ReservationModel.Reservation?
     @State private var offset: CGFloat = 1000
-    @State private var selection = "Fotostudio"
+    @Binding var selection: String
     @Binding  var currdate: Date
     @Binding  var currentDate1: Date
     @Binding  var currentDate2: Date
@@ -129,6 +129,6 @@ struct CustomDialogEdit: View{
 
 struct CustomDialogEdit_Previews: PreviewProvider {
     static var previews: some View {
-        CustomDialogEdit(isActive: .constant(true), title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {}, currReservation: nil, currdate: .constant(Date.now), currentDate1: .constant(Date()), currentDate2: .constant(Date()))
+        CustomDialogEdit(isActive: .constant(true), title: "Reservation", message: "Your Reservation is on in ", buttonTitle: "OK", action: {}, currReservation: nil, selection: .constant("Fotostudio") ,currdate: .constant(Date.now), currentDate1: .constant(Date()), currentDate2: .constant(Date()))
     }
 }

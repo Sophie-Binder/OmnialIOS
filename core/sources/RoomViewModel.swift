@@ -32,5 +32,15 @@ class RoomViewModel: ObservableObject {
         
         return names
     }
+    
+    func getIdByName(name: String) -> Int {
+        var id: Int = 0
+        rooms.forEach{ room in
+            if room.name == name {
+                id = room.id
+            }
+        }
+        return id
+    }
 
 }

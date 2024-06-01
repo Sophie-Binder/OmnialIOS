@@ -23,7 +23,7 @@ struct CalendarView: View {
     @State  var currentDate1: Date = Date.now
     @State  var currentDate2: Date = Date.now
     
-    @State private var selection = "Fotostudio"
+    @State var selection = "Fotostudio"
   
     
     
@@ -121,7 +121,7 @@ struct CalendarView: View {
     
     
     var body: some View{
-        let newReservations: [ReservationModel.Reservation] = viewModel.reservations
+        //let newReservations: [ReservationModel.Reservation] = viewModel.reservations
         let rooms:[String] = viewModelRoom.getRoomNames()
            
 
@@ -293,7 +293,7 @@ struct CalendarView: View {
                             ForEach(0..<4){ number2 in
 
                                 Group{
-                                    if viewModel.reservations.contains( where: {$0.reservationDate == dates[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1]})
+                                    if viewModel.reservations.contains( where: {$0.reservationDate == dates[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
                                         {
                                         Button {
                                             isActive = true
@@ -391,7 +391,7 @@ struct CalendarView: View {
                     dateFormatter1.dateFormat = "'T'HH:mm:ss"
                     dateFormatter2.dateFormat = "yyyy-MM-dd"
                     
-                    updateReservation(id:  currRes.id, reservation: ReservationModel.Reservation( id: currRes.id, roomId: 1, personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
+                    updateReservation(id:  currRes.id, reservation: ReservationModel.Reservation( id: currRes.id, roomId: viewModelRoom.getIdByName(name: selection), personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
                     
                     Task {
                          do {
@@ -405,7 +405,7 @@ struct CalendarView: View {
                          }
                      }
                    
-                }, currReservation: currRes, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
+                } , currReservation: currRes ,selection: $selection, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
             }
             
             if isActive3 {
@@ -415,7 +415,7 @@ struct CalendarView: View {
                 dateFormatter1.dateFormat = "'T'HH:mm:ss"
                 dateFormatter2.dateFormat = "yyyy-MM-dd"
                     
-                    addReservation(reservation: ReservationModel.Reservation(roomId: 1, personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
+                    addReservation(reservation: ReservationModel.Reservation(roomId: viewModelRoom.getIdByName(name: selection), personId: 1, startTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate1), endTime: dateFormatter2.string(from: currdate)+dateFormatter1.string(from: currentDate2), reservationDate: dateFormatter2.string(from: currdate)))
                     
                     currdate = Date.now
                     currentDate1 = Date.now
@@ -437,7 +437,7 @@ struct CalendarView: View {
                      }
                     //let reservations = try? await loadAllReservations(weekDay: "2024-03-01");
                     
-                }, currReservation: nil, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
+                }, currReservation: nil, selection: $selection, currdate: $currdate, currentDate1: $currentDate1, currentDate2: $currentDate2)
             }
 
 
