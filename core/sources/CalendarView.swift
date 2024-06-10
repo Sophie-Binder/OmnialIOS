@@ -89,6 +89,20 @@ struct CalendarView: View {
         
       ]
     
+    
+    
+    func fillUpArray() -> [String]{
+        var weekDay:[String] = []
+        for index in (1...5) {
+            weekDay.append(dateString(for: index))
+        }
+        print(weekDay)
+        return weekDay
+    }
+    
+
+   
+    
     func serverToLocalTime(date:String) -> Date? {
         
         
@@ -174,8 +188,9 @@ struct CalendarView: View {
     
     
     var body: some View{
+        var weekDay:[String] = fillUpArray()
         
-        let days: [String] = getFirstDay()
+        //let days: [String] = getFirstDay()
         
         
         
@@ -206,7 +221,7 @@ struct CalendarView: View {
                 .pickerStyle(.menu)
                 
                 
-                Text(currentDate.formatted(Date.FormatStyle().month(.wide)))
+                Text(currentWeek.formatted(Date.FormatStyle().month(.wide)))
                     .font(.system(size: 25))
                     .foregroundColor(.white)
                     .padding(.leading, 20)
@@ -385,7 +400,7 @@ struct CalendarView: View {
                             ForEach(0..<4){ number2 in
 
                                 Group{
-                                    if viewModel.reservations.contains( where: {$0.reservationDate == dates[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
+                                    if viewModel.reservations.contains( where: {$0.reservationDate == weekDay[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
                                         {
                                         Button {
                                             isActive = true
@@ -434,16 +449,16 @@ struct CalendarView: View {
                                 if value.translation.width < 0 {
                                     // Swipe left
                                     self.currentWeek = self.changeWeek(by: 1)
-                                    print("!!!!\(currentWeek)")
+                                    
                                 } else if value.translation.width > 0 {
                                     // Swipe right
                                     self.currentWeek = self.changeWeek(by: -1)
-                                    print("!!!!\(currentWeek)")
+                                    
                                 }
                             }
                     )
             } .task{
-                let reservations = await loadAllReservations(weekDay: "2024-03-01");
+                let reservations = await loadAllReservations(weekDay: dateString(for: 1));
                 viewModel.reservationLoaded(reservations)
                 print(viewModel.reservations)
                 
@@ -478,9 +493,12 @@ struct CalendarView: View {
                     Task {
                          do {
                              try await Task.sleep(nanoseconds: 1_000_000_000)
-                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             let reservations = try await loadAllReservations(weekDay: dateString(for: 1));
+                             print("-----")
+                             print(reservations)
+                             print("-----")
                              viewModel.reservationLoaded(reservations)
-                             print("DFFGDERFG")
+                             
                          }
                          catch {
                              print(error)
@@ -504,9 +522,9 @@ struct CalendarView: View {
                     Task {
                          do {
                              try await Task.sleep(nanoseconds: 1_000_000_000)
-                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             let reservations = try await loadAllReservations(weekDay: dateString(for: 1));
                              viewModel.reservationLoaded(reservations)
-                             print("DFFGDERFG")
+                           
                          }
                          catch {
                              print(error)
@@ -535,9 +553,9 @@ struct CalendarView: View {
                     Task {
                          do {
                              try await Task.sleep(nanoseconds: 1_000_000_000)
-                             let reservations = try await loadAllReservations(weekDay: "2024-03-01");
+                             let reservations = try await loadAllReservations(weekDay: dateString(for: 1));
                              viewModel.reservationLoaded(reservations)
-                             print("DFFGDERFG")
+                        
                          }
                          catch {
                              print(error)
@@ -558,8 +576,6 @@ struct CalendarView: View {
         let date = calendar.date(byAdding: .day, value: offset, to: startOfWeek)!
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        print("wichtig::")
-        print(formatter.string(from: date))
         return formatter.string(from: date)
     }
 
