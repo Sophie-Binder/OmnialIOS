@@ -21,6 +21,7 @@ struct ContentView: View {
                 .tabItem{
                     Label("Profile", systemImage: "person")
                 }
+            WeeklyCalendarView()
         }
     }
 }

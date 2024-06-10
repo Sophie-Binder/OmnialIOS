@@ -14,6 +14,7 @@
 		111CC2752BFB97DC0090412F /* PersonViewMoldel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2742BFB97DC0090412F /* PersonViewMoldel.swift */; };
 		111CC2772BFB9ABF0090412F /* RoomService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111CC2762BFB9ABF0090412F /* RoomService.swift */; };
 		115F73072BF3F3C10040C392 /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115F73062BF3F3C10040C392 /* CustomDialog.swift */; };
+		11A4DFD22C1616FE00174CF8 /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A4DFD12C1616FE00174CF8 /* test.swift */; };
 		11F62FBB2BF52E810010894C /* CustomeDialogEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */; };
 		19E30ACF8DE44BFFDF032B2C /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7640124845DE72FA60CFCDD1 /* Reservation.swift */; };
 		1E19B07BCF4C562E013A6573 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21BE66DE1C8F9606C95A617 /* ContentView.swift */; };
@@ -32,6 +33,7 @@
 		111CC2762BFB9ABF0090412F /* RoomService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomService.swift; sourceTree = "<group>"; };
 		115F73062BF3F3C10040C392 /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		119381B32BE29466008D6EE9 /* info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = info.plist; sourceTree = "<group>"; };
+		11A4DFD12C1616FE00174CF8 /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomeDialogEdit.swift; sourceTree = "<group>"; };
 		1254ADD015AE0AA00D456C96 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		6647513A2D5C2EFECDB40EE4 /* ReservationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationService.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				111CC2722BFB97C80090412F /* RoomViewModel.swift */,
 				111CC2742BFB97DC0090412F /* PersonViewMoldel.swift */,
 				111CC2762BFB9ABF0090412F /* RoomService.swift */,
+				11A4DFD12C1616FE00174CF8 /* test.swift */,
 			);
 			name = sources;
 			path = core/sources;
@@ -144,6 +147,7 @@
 				111CC2712BFB95E20090412F /* Person.swift in Sources */,
 				111CC2752BFB97DC0090412F /* PersonViewMoldel.swift in Sources */,
 				E297304DF5FBF607514BFB0B /* ReservationViewModel.swift in Sources */,
+				11A4DFD22C1616FE00174CF8 /* test.swift in Sources */,
 				99D778CB991BEBAF05DC70C8 /* omnialApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

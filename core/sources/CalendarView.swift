@@ -7,8 +7,32 @@
 
 import Foundation
 import SwiftUI
+import UIKit
+
+
+extension Calendar {
+    static let gregorian = Calendar(identifier: .gregorian)
+}
+
+extension Date {
+    func startOfWeek(using calendar: Calendar =  Calendar.current) -> Date {
+        calendar.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: self).date!
+    }
+}
+
+extension String: Identifiable {
+    public typealias ID = Int
+    public var id: Int {
+        return hash
+    }
+}
+
 
 struct CalendarView: View {
+    
+    @State private var currentWeek: Date = Date()
+
+    
     
     @ObservedObject var viewModel : ReservationViewModel
     @ObservedObject var viewModelRoom : RoomViewModel
@@ -40,7 +64,7 @@ struct CalendarView: View {
           ["08:00:00","08:50:00"],
           ["08:55:00","09:45:00"],
           ["10:00:00","10:50:00"],
-          ["10:45:00","11:45:00"],
+          ["10:55:00","11:45:00"],
           ["11:50:00","12:40:00"],
           ["12:45:00","13:35:00"],
           ["13:40:00","14:30:00"],
@@ -57,7 +81,7 @@ struct CalendarView: View {
      ]
    
       var dates = [
-        "2024-03.01",
+        "2024-03-01",
         "2024-03-02",
         "2024-03-03",
         "2023-03-04",
@@ -116,11 +140,46 @@ struct CalendarView: View {
     
     //var currentWeekDays: [Date] = getAllDaysOfTheCurrentWeek()
     
+    func convertNextDate(dateString : String)-> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let myDate = dateFormatter.date(from: dateString)!
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: myDate)
+        let somedateString = dateFormatter.string(from: tomorrow!)
+        return somedateString
+    }
+
+    func toStringDate(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let firstDayString = dateFormatter.string(from: date)
+        return firstDayString
+    }
     
-   
+    func getFirstDay() ->  [String]{
+        let firstDay = Date().startOfWeek()
+        let Sunday = toStringDate(date: firstDay)
+        let Monday = convertNextDate(dateString: Sunday)
+        let Tuesday = convertNextDate(dateString: Monday)
+        let Wednesday = convertNextDate(dateString: Tuesday)
+        let Thursday = convertNextDate(dateString: Wednesday)
+        let Friday = convertNextDate(dateString: Thursday)
+
+        let days: [String] = [Monday, Tuesday, Wednesday, Thursday, Friday]
+        print(days)
+        return days
+    }
+    
+    
     
     
     var body: some View{
+        
+        let days: [String] = getFirstDay()
+        
+        
+        
+        
         //let newReservations: [ReservationModel.Reservation] = viewModel.reservations
         let rooms:[String] = viewModelRoom.getRoomNames()
            
@@ -151,30 +210,49 @@ struct CalendarView: View {
                     .font(.system(size: 25))
                     .foregroundColor(.white)
                     .padding(.leading, 20)
-
+                
             }.frame(alignment: .leading)
-            .frame(width: 395)
+            .frame(maxWidth: .infinity)
             .frame(height: 80)
             .background(Color(red: 30/255, green: 68/255, blue: 77/255, opacity: 1))
 
             HStack(spacing: 10){
+                
                 Group(){
                     Divider()
                         .frame(height: 25.0)
                         .frame(width: 3)
                         .overlay(.gray)
                 }.frame(width: 35, alignment: .trailing)
-                /*ForEach(1..<6){ number in
+                
+                
+                ForEach(1..<6, id: \.self) { offset in
+                    
+                    
                     Group{
-                        Text("\(number).")
-                            
+                        Text(String(self.dateString(for: offset).suffix(2)))
                         Divider()
                             .frame(height: 25.0)
                             .frame(width: 3)
                             .overlay(.gray)
                     }.frame(width: 30, alignment: .center)
-                }*/
+                    
+                }
+                
 
+                
+                /*
+                ForEach(days) {day in
+                    Group{
+                        Text("\(String(day.suffix(2)))")
+                            .frame(width: 30)
+                        Divider()
+                            .frame(height: 25.0)
+                            .frame(width: 3)
+                            .overlay(.gray)
+                    }.frame(width: 30, alignment: .center)
+                }
+            
                 Group{
                     Text("1.")
                         .frame(width: 30)
@@ -212,15 +290,20 @@ struct CalendarView: View {
                     Text("5.")
                         .frame(width: 30)
                 }.frame(width: 30)
-            }
+                */
+                
+                
+            }.frame(maxWidth: .infinity)
 
             HStack(spacing: 10){
-                Group{
+                Group(){
                     Divider()
-                        .frame(height: 20.0)
+                        .frame(height: 25.0)
                         .frame(width: 3)
                         .overlay(.gray)
                 }.frame(width: 35, alignment: .trailing)
+                
+               
                 Group{
                     Text("MO")
                         .font(.system(size: 14))
@@ -260,19 +343,29 @@ struct CalendarView: View {
                     Text("FR")
                         .frame(width: 50)
                         .font(.system(size: 14))
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
                 }.frame(width: 30)
-            }
+                
+                
+                
+                
+            }.frame(maxWidth: .infinity)
+            
+            
             Divider()
                 .frame(minHeight: 3)
                 .overlay(.gray)
 
             ScrollView{
 
-                VStack( alignment: .leading, spacing: 0){
+                VStack(  alignment: .leading,spacing: 0 ){
                     ForEach(0..<17){ number in
 
                         HStack(spacing: 10){
-                            HStack{
+                           
                                 VStack(spacing: 20){
                                   
                                     Text("\(times[number][0])")
@@ -281,14 +374,13 @@ struct CalendarView: View {
                                         .frame(alignment: .top)
                                     Text("\(times[number][1])")
                                         .font(.system(size: 6))
-                                        .frame(alignment: .top)
-                                }
+                                        .frame(alignment: .bottom)
+                                }.frame(width: 25,alignment: .leading)
                                 Divider()
                                     .frame(height: 60.0)
                                     .frame(width: 3)
                                     .overlay(.gray)
-                            }.frame(width: 35, alignment: .trailing)
-                                .frame(height: 60)
+                           
 
                             ForEach(0..<4){ number2 in
 
@@ -327,6 +419,7 @@ struct CalendarView: View {
                                
 
                         }.frame(height: 60)
+                            
 
 
                         Divider()
@@ -334,7 +427,21 @@ struct CalendarView: View {
                             .overlay(.gray)
 
                     }
-                }
+                }.frame(maxWidth: .infinity)
+                    .gesture(
+                        DragGesture()
+                            .onEnded { value in
+                                if value.translation.width < 0 {
+                                    // Swipe left
+                                    self.currentWeek = self.changeWeek(by: 1)
+                                    print("!!!!\(currentWeek)")
+                                } else if value.translation.width > 0 {
+                                    // Swipe right
+                                    self.currentWeek = self.changeWeek(by: -1)
+                                    print("!!!!\(currentWeek)")
+                                }
+                            }
+                    )
             } .task{
                 let reservations = await loadAllReservations(weekDay: "2024-03-01");
                 viewModel.reservationLoaded(reservations)
@@ -344,6 +451,7 @@ struct CalendarView: View {
                 viewModelRoom.roomsLoaded(rooms)
                 print(viewModelRoom.rooms)
             }
+            .frame(maxWidth: .infinity)
           
         }
             Button {
@@ -442,7 +550,24 @@ struct CalendarView: View {
 
 
         }
+        
     }
+    private func dateString(for offset: Int) -> String {
+        let calendar = Calendar.current
+        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: currentWeek))!
+        let date = calendar.date(byAdding: .day, value: offset, to: startOfWeek)!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        print("wichtig::")
+        print(formatter.string(from: date))
+        return formatter.string(from: date)
+    }
+
+    private func changeWeek(by weeks: Int) -> Date {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .weekOfYear, value: weeks, to: currentWeek)!
+    }
+    
 
 }
 

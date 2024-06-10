@@ -27,7 +27,7 @@ struct CustomDialogEdit: View{
 
     
     
-    let rooms = ["Fotostudio", "Musikraum", "Vioschnittraum"]
+    let rooms = ["Fotostudio", "Musikraum", "Videoschnittraum"]
     
    
     
