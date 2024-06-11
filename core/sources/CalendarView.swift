@@ -50,10 +50,7 @@ struct CalendarView: View {
     @State var selection = "Fotostudio"
   
     
-    
-    let reservations: [ReservationModel.Reservation]  = [ReservationModel.Reservation(id: 1, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "02.03.2024"), ReservationModel.Reservation(id: 2, roomId: 1, personId: 1, startTime: "14:35", endTime: "15:25", reservationDate: "02.03.2024"),ReservationModel.Reservation(id: 3, roomId: 1, personId: 1, startTime: "08:00", endTime: "08:50", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 4, roomId: 1, personId: 1, startTime: "11:50", endTime: "12:40", reservationDate: "03.03.2024"),ReservationModel.Reservation(id: 5, roomId: 1, personId: 1, startTime: "07:05", endTime: "07:55", reservationDate: "04.03.2024")
-    ]
-    
+
     let dateFormatter1 = DateFormatter()
     let dateFormatter2 = DateFormatter()
     
@@ -79,15 +76,6 @@ struct CalendarView: View {
           ["21:25:00","22:10:00"]
     
      ]
-   
-      var dates = [
-        "2024-03-01",
-        "2024-03-02",
-        "2024-03-03",
-        "2023-03-04",
-        "2024-03-05",
-        
-      ]
     
     
     
@@ -130,59 +118,10 @@ struct CalendarView: View {
     
     let currentDate = Date()
     
-    func getAllDaysOfTheCurrentWeek() -> [Date] {
-        
-        var dates: [Date] = []
-        guard let dateInterval = Calendar.current.dateInterval(of: .weekOfYear, for: Date()) else {
-            return dates
-        }
-        
-        Calendar.current.enumerateDates(startingAfter: dateInterval.start, matching: DateComponents(hour:0), matchingPolicy: .nextTime) { date, _, stop in
-            guard let date = date else {
-                return
-            }
-            if date <= dateInterval.end {
-                dates.append(date)
-            }
-            else {
-                stop = true
-            }
-        }
-        return dates
-        
-    }
+
     
     //var currentWeekDays: [Date] = getAllDaysOfTheCurrentWeek()
-    
-    func convertNextDate(dateString : String)-> String{
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let myDate = dateFormatter.date(from: dateString)!
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: myDate)
-        let somedateString = dateFormatter.string(from: tomorrow!)
-        return somedateString
-    }
 
-    func toStringDate(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let firstDayString = dateFormatter.string(from: date)
-        return firstDayString
-    }
-    
-    func getFirstDay() ->  [String]{
-        let firstDay = Date().startOfWeek()
-        let Sunday = toStringDate(date: firstDay)
-        let Monday = convertNextDate(dateString: Sunday)
-        let Tuesday = convertNextDate(dateString: Monday)
-        let Wednesday = convertNextDate(dateString: Tuesday)
-        let Thursday = convertNextDate(dateString: Wednesday)
-        let Friday = convertNextDate(dateString: Thursday)
-
-        let days: [String] = [Monday, Tuesday, Wednesday, Thursday, Friday]
-        print(days)
-        return days
-    }
     
     
     
@@ -207,12 +146,7 @@ struct CalendarView: View {
 
             
             HStack{
-                /*
-                Text("Fotostudio")
-                    .font(.system(size: 35))
-                    .foregroundColor(.white)
-                    .padding(.trailing, 50)
-                 */
+                
                 Picker("", selection: $selection){
                                ForEach(rooms, id: \.self) {
                                    Text($0)
@@ -231,143 +165,110 @@ struct CalendarView: View {
             .frame(height: 80)
             .background(Color(red: 30/255, green: 68/255, blue: 77/255, opacity: 1))
 
-            HStack(spacing: 10){
+            HStack(spacing: 0){
                 
-                Group(){
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 35, alignment: .trailing)
+              
                 
                 
                 ForEach(1..<6, id: \.self) { offset in
                     
+                    if(offset == 1){
+                        HStack{
+                            
+                            Divider()
+                                .frame(height: 25.0)
+                                .frame(width: 3)
+                                .overlay(.gray)
+                            Spacer().frame(width: 10)
+                        }.frame(width: 71, alignment: .trailing)
+                            //.border(.red)
+                    }
                     
-                    Group{
+                    
+                    HStack{
                         Text(String(self.dateString(for: offset).suffix(2)))
+                        Spacer().frame(width: 25)
                         Divider()
                             .frame(height: 25.0)
                             .frame(width: 3)
                             .overlay(.gray)
-                    }.frame(width: 30, alignment: .center)
+                    }.frame(width: 71, alignment: .center)
+                        //.border(.red)
+                    
                     
                 }
                 
+                
+            }.frame(maxWidth: .infinity, alignment: .leading)
 
-                
-                /*
-                ForEach(days) {day in
-                    Group{
-                        Text("\(String(day.suffix(2)))")
-                            .frame(width: 30)
-                        Divider()
-                            .frame(height: 25.0)
-                            .frame(width: 3)
-                            .overlay(.gray)
-                    }.frame(width: 30, alignment: .center)
-                }
-            
-                Group{
-                    Text("1.")
-                        .frame(width: 30)
+            HStack(spacing: 0){
+                HStack{
+                    
                     Divider()
                         .frame(height: 25.0)
                         .frame(width: 3)
                         .overlay(.gray)
-                }.frame(width: 30, alignment: .center)
-                Group{
-                    Text("2.")
-                        .frame(width: 30)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                Group{
-                    Text("3.")
-                        .frame(width: 30)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-
-                }.frame(width: 30)
-                Group{
-                    Text("4.")
-                        .frame(width: 30)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                Group{
-                    Text("5.")
-                        .frame(width: 30)
-                }.frame(width: 30)
-                */
+                    Spacer().frame(width: 10)
+                }.frame(width: 71, alignment: .trailing)
                 
                 
-            }.frame(maxWidth: .infinity)
-
-            HStack(spacing: 10){
-                Group(){
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 35, alignment: .trailing)
-                
-               
-                Group{
+                HStack{
                     Text("MO")
                         .font(.system(size: 14))
-                    Divider()
-                        .frame(height: 20.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30, alignment: .center)
-                Group{
-                    Text("DI")
-                        .frame(width: 50)
-                        .font(.system(size: 14))
-                    Divider()
-                        .frame(height: 20.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                Group{
-                    Text("MI")
-                        .frame(width: 50)
-                        .font(.system(size: 14))
-                    Divider()
-                        .frame(height: 20.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                Group{
-                    Text("DO")
-                        .frame(width: 50)
-                        .font(.system(size: 14))
-                    Divider()
-                        .frame(height: 20.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 30)
-                Group{
-                    Text("FR")
-                        .frame(width: 50)
-                        .font(.system(size: 14))
+                    Spacer().frame(width: 20)
                     Divider()
                         .frame(height: 25.0)
                         .frame(width: 3)
                         .overlay(.gray)
-                }.frame(width: 30)
+                }.frame(width: 71, alignment: .center)
                 
                 
+                HStack{
+                    Text("DI")
+                        .font(.system(size: 14))
+                    Spacer().frame(width: 26)
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
+                }.frame(width: 71, alignment: .center)
                 
                 
-            }.frame(maxWidth: .infinity)
+                HStack{
+                    Text("MI")
+                        .font(.system(size: 14))
+                    Spacer().frame(width: 26)
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
+                }.frame(width: 71, alignment: .center)
+                
+                
+                HStack{
+                    Text("DO")
+                        .font(.system(size: 14))
+                    Spacer().frame(width: 22)
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
+                }.frame(width: 71, alignment: .center)
+                
+                
+                HStack{
+                    Text("FR")
+                        .font(.system(size: 14))
+                    Spacer().frame(width: 20)
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
+                }.frame(width: 71, alignment: .center)
+
+                
+ 
+            }.frame(maxWidth: .infinity, alignment: .leading)
             
             
             Divider()
@@ -376,41 +277,44 @@ struct CalendarView: View {
 
             ScrollView{
 
-                VStack(  alignment: .leading,spacing: 0 ){
+                VStack(spacing: 0 ){
                     ForEach(0..<17){ number in
 
-                        HStack(spacing: 10){
+                        HStack(spacing: 0){
                            
+                            HStack(spacing: 0){
                                 VStack(spacing: 20){
                                   
-                                    Text("\(times[number][0])")
+                                    Text("\(String(times[number][0].prefix(5)))")
                                         .font(.system(size: 6))
                                         .padding(.leading, 1)
                                         .frame(alignment: .top)
-                                    Text("\(times[number][1])")
+                                    Text("\(String(times[number][1].prefix(5)))")
                                         .font(.system(size: 6))
                                         .frame(alignment: .bottom)
-                                }.frame(width: 25,alignment: .leading)
-                                Divider()
-                                    .frame(height: 60.0)
-                                    .frame(width: 3)
-                                    .overlay(.gray)
-                           
+                                  
+                                }
+                            Divider()
+                                .frame(height: 60.0)
+                                .frame(width: 3)
+                                .overlay(.gray)
+                            }.frame(width: 30,alignment: .leading)
+                                .border(.red)
 
                             ForEach(0..<4){ number2 in
 
-                                Group{
+                                HStack{
                                     if viewModel.reservations.contains( where: {$0.reservationDate == weekDay[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
                                         {
                                         Button {
                                             isActive = true
-                                            message = "Your Reservation is on \(dates[number2]) from \(times[number][0]) to \(times[number][1])"
-                                            currRes = viewModel.getReservationByDateTime(date: dates[number2], time1: times[number][0], time2: times[number][1])
+                                            message = "Your Reservation is on \(weekDay[number2]) from \(times[number][0]) to \(times[number][1])"
+                                            currRes = viewModel.getReservationByDateTime(date: weekDay[number2], time1: times[number][0], time2: times[number][1])
                                             dateFormatter1.dateFormat = "yyyy-MM-dd"
-                                            currdate = dateFormatter1.date(from: dates[number2])!
+                                            currdate = dateFormatter1.date(from: weekDay[number2])!
                                             dateFormatter1.dateFormat = "yyyy-MM-dd HH:mm:ss"
-                                            currentDate1 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][0])")!
-                                            currentDate2 = dateFormatter1.date(from: "\(dates[number2]) \(times[number][1])")!
+                                            currentDate1 = dateFormatter1.date(from: "\(weekDay[number2]) \(times[number][0])")!
+                                            currentDate2 = dateFormatter1.date(from: "\(weekDay[number2]) \(times[number][1])")!
                                             
                                         } label: {
                                             ZStack {
@@ -429,20 +333,20 @@ struct CalendarView: View {
                                         .frame(height:60.0)
                                         .frame(width: 3)
                                         .overlay(.gray)
-                                }.frame(width: 30, alignment: .center)
-                            }.frame(width: 30, alignment: .center)
+                                }.frame(width: 71, alignment: .center)
+                                    .border(.red)
+                            }
                                
 
-                        }.frame(height: 60)
+                        }.frame( height: 60 , alignment: .leading)
                             
-
 
                         Divider()
                             .frame(minHeight: 3)
                             .overlay(.gray)
 
                     }
-                }.frame(maxWidth: .infinity)
+                }.frame(maxWidth: .infinity, alignment: .leading)
                     .gesture(
                         DragGesture()
                             .onEnded { value in

@@ -24,17 +24,22 @@ struct CustomDialogEdit: View{
     @Binding  var currentDate1: Date
     @Binding  var currentDate2: Date
     
-
-    
-    
     let rooms = ["Fotostudio", "Musikraum", "Videoschnittraum"]
     
-   
+    @State private var selectedTime = 0
+    
+    @State private var selectedTime2 = 0
+    
+    let dateFormatter = DateFormatter()
+    
+       
+
+    let allowedTimes = ["07:05","08:00","08:55","10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20", "18:05", "19:00", "19:45", "20:40","21:25"]
+    let allowedTimes2 = ["07:55","08:50","09:45","10:50", "11:45", "12:40", "13:35", "14:30", "15:25", "16:20", "17:15", "18:05", "18:50", "19:45","20:30","21:25", "22:10"]
+    
+       
     
     var body: some View {
-        
-        
-        
         
         ZStack {
           
@@ -66,11 +71,31 @@ struct CustomDialogEdit: View{
                                 Text("Select a date")
                             }
                 
-                DatePicker("Select starting Time", selection: $currentDate1, displayedComponents: .hourAndMinute)
-                DatePicker("Select ending Time", selection: $currentDate2, displayedComponents: .hourAndMinute)
+               /* DatePicker("Select starting Time", selection: $currentDate1, displayedComponents: .hourAndMinute)*/
+               // DatePicker("Select ending Time", selection: $currentDate2, displayedComponents: .hourAndMinute)
+                
+                
+                
+                Picker("Select a time", selection: $selectedTime) {
+                                ForEach(0..<allowedTimes.count) { index in
+                                    Text(self.allowedTimes[index]).tag(index)
+                                    
+                                }
+                }
+                
+                Picker("Select a time", selection: $selectedTime2) {
+                                ForEach(0..<allowedTimes2.count) { index in
+                                    Text(self.allowedTimes2[index]).tag(index)
+                                    
+                                }
+                }
 
                 
                 Button {
+                    dateFormatter.dateFormat = "hh:mm"
+            
+                    currentDate1 = dateFormatter.date(from: allowedTimes[selectedTime])!
+                    currentDate2 = dateFormatter.date(from: allowedTimes2[selectedTime2])!
                     action()
                     close()
                 } label: {
