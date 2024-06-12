@@ -287,9 +287,8 @@ struct CalendarView: View {
                                 .overlay(.gray)
 
                             ForEach(0..<5){ number2 in
-
-                               
-                                    if viewModel.reservations.contains( where: {$0.reservationDate == weekDay[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
+                                
+                                if viewModel.reservations.contains( where: {($0.reservationDate == weekDay[number2] && ($0.startTime == times[number][0] || $0.endTime == times[number][1] || ($0.startTime > times[number][0] && times[number][1] > $0.endTime)) && $0.roomId == viewModelRoom.getIdByName(name: selection)) })
                                         {
                                         Button {
                                             isActive = true

@@ -30,13 +30,21 @@ struct ReservationModel {
     
     private (set) var reservation = Reservation()
     
-    private (set) var reservations = [Reservation()]      
+    private (set) var reservations = [Reservation()]
+    
+    private (set) var allReservations = [Reservation()]
     
     
     mutating func setReservations(_ loadedReservations: [ReservationModel.Reservation]){
         
         reservations = loadedReservations
     }
+    
+    mutating func setAllReservations(_ loadedReservations: [ReservationModel.Reservation]){
+        
+        allReservations = loadedReservations
+    }
+
 
 }
 

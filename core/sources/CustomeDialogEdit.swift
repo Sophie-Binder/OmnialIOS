@@ -37,6 +37,19 @@ struct CustomDialogEdit: View{
     let allowedTimes = ["07:05","08:00","08:55","10:00", "10:55", "11:50", "12:45", "13:40", "14:35", "15:30", "16:25", "17:20", "18:05", "19:00", "19:45", "20:40","21:25"]
     let allowedTimes2 = ["07:55","08:50","09:45","10:50", "11:45", "12:40", "13:35", "14:30", "15:25", "16:20", "17:15", "18:05", "18:50", "19:45","20:30","21:25", "22:10"]
     
+    func timeConversion12(time24: String) -> String {
+        let dateAsString = time24
+        let df = DateFormatter()
+        df.dateFormat = "HH:mm"
+
+        let date = df.date(from: dateAsString)
+        df.dateFormat = "hh:mm a"
+
+        let time12 = df.string(from: date!)
+        print(time12)
+        return time12
+    }
+    
        
     
     var body: some View {
@@ -92,7 +105,7 @@ struct CustomDialogEdit: View{
 
                 
                 Button {
-                    dateFormatter.dateFormat = "hh:mm"
+                    dateFormatter.dateFormat = "HH:mm"
             
                     currentDate1 = dateFormatter.date(from: allowedTimes[selectedTime])!
                     currentDate2 = dateFormatter.date(from: allowedTimes2[selectedTime2])!

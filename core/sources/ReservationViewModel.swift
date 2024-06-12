@@ -18,10 +18,20 @@ class ReservationViewModel: ObservableObject {
         reservationModel.reservations
     }
     
+    var allReservations: [ReservationModel.Reservation]{
+        reservationModel.allReservations
+    }
+    
     func reservationLoaded(_ reservations: [ReservationModel.Reservation]){
     
         reservationModel.setReservations(reservations)
     }
+    
+    func AllReservationLoaded(_ reservations: [ReservationModel.Reservation]){
+    
+        reservationModel.setAllReservations(reservations)
+    }
+    
     
     func getReservationByDateTime(date: String, time1: String, time2: String) -> ReservationModel.Reservation {
         var res: ReservationModel.Reservation = ReservationModel.Reservation()

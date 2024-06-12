@@ -66,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				1254ADD015AE0AA00D456C96 /* CalendarView.swift */,
-				F21BE66DE1C8F9606C95A617 /* ContentView.swift */,
 				6A70C5A837A063156049F7F4 /* omnialApp.swift */,
 				88F87521E2E114408FDF6D99 /* ProfileView.swift */,
 				7640124845DE72FA60CFCDD1 /* Reservation.swift */,
@@ -74,6 +73,7 @@
 				7A7E715FBC399B796D193515 /* ReservationViewModel.swift */,
 				115F73062BF3F3C10040C392 /* CustomDialog.swift */,
 				11F62FBA2BF52E810010894C /* CustomeDialogEdit.swift */,
+				F21BE66DE1C8F9606C95A617 /* ContentView.swift */,
 				111CC26E2BFB95CE0090412F /* Room.swift */,
 				111CC2702BFB95E20090412F /* Person.swift */,
 				111CC2722BFB97C80090412F /* RoomViewModel.swift */,
