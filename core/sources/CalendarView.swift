@@ -173,102 +173,89 @@ struct CalendarView: View {
                 ForEach(1..<6, id: \.self) { offset in
                     
                     if(offset == 1){
-                        HStack{
-                            
-                            Divider()
-                                .frame(height: 25.0)
-                                .frame(width: 3)
-                                .overlay(.gray)
-                            Spacer().frame(width: 10)
-                        }.frame(width: 71, alignment: .trailing)
-                            //.border(.red)
+                        Spacer().frame(width: 40)
+                         
+
                     }
                     
-                    
-                    HStack{
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
                         Text(String(self.dateString(for: offset).suffix(2)))
-                        Spacer().frame(width: 25)
-                        Divider()
-                            .frame(height: 25.0)
-                            .frame(width: 3)
-                            .overlay(.gray)
-                    }.frame(width: 71, alignment: .center)
-                        //.border(.red)
+                        .frame(maxWidth: .infinity)
                     
+                }
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
                     
+                
+                
+            }.frame(maxWidth: .infinity, alignment: .center)
+
+            HStack(spacing: 0){
+            
+                Spacer().frame(width: 40)
+                
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
+                
+                Text("MO")
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity)
+                
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
+                
+                Text("DI")
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity)
+                
+                
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
+                
+                Text("MI")
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity)
+                
+                
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
+                
+                Text("DO")
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity)
+                
+                Group{
+                Divider()
+                    .frame(height: 25.0)
+                    .frame(width: 3)
+                    .overlay(.gray)
+                
+                Text("DO")
+                    .font(.system(size: 14))
+                    .frame(maxWidth: .infinity)
+                    Divider()
+                        .frame(height: 25.0)
+                        .frame(width: 3)
+                        .overlay(.gray)
                 }
                 
                 
-            }.frame(maxWidth: .infinity, alignment: .leading)
-
-            HStack(spacing: 0){
-                HStack{
-                    
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                    Spacer().frame(width: 10)
-                }.frame(width: 71, alignment: .trailing)
-                
-                
-                HStack{
-                    Text("MO")
-                        .font(.system(size: 14))
-                    Spacer().frame(width: 20)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 71, alignment: .center)
-                
-                
-                HStack{
-                    Text("DI")
-                        .font(.system(size: 14))
-                    Spacer().frame(width: 26)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 71, alignment: .center)
-                
-                
-                HStack{
-                    Text("MI")
-                        .font(.system(size: 14))
-                    Spacer().frame(width: 26)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 71, alignment: .center)
-                
-                
-                HStack{
-                    Text("DO")
-                        .font(.system(size: 14))
-                    Spacer().frame(width: 22)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 71, alignment: .center)
-                
-                
-                HStack{
-                    Text("FR")
-                        .font(.system(size: 14))
-                    Spacer().frame(width: 20)
-                    Divider()
-                        .frame(height: 25.0)
-                        .frame(width: 3)
-                        .overlay(.gray)
-                }.frame(width: 71, alignment: .center)
-
                 
  
-            }.frame(maxWidth: .infinity, alignment: .leading)
+            }.frame(maxWidth: .infinity, alignment: .center)
             
             
             Divider()
@@ -282,7 +269,7 @@ struct CalendarView: View {
 
                         HStack(spacing: 0){
                            
-                            HStack(spacing: 0){
+                
                                 VStack(spacing: 20){
                                   
                                     Text("\(String(times[number][0].prefix(5)))")
@@ -293,17 +280,15 @@ struct CalendarView: View {
                                         .font(.system(size: 6))
                                         .frame(alignment: .bottom)
                                   
-                                }
+                                }.frame(width:40)
                             Divider()
                                 .frame(height: 60.0)
                                 .frame(width: 3)
                                 .overlay(.gray)
-                            }.frame(width: 30,alignment: .leading)
-                                .border(.red)
 
-                            ForEach(0..<4){ number2 in
+                            ForEach(0..<5){ number2 in
 
-                                HStack{
+                               
                                     if viewModel.reservations.contains( where: {$0.reservationDate == weekDay[number2] && $0.startTime == times[number][0] && $0.endTime == times[number][1] && $0.roomId == viewModelRoom.getIdByName(name: selection)})
                                         {
                                         Button {
@@ -318,9 +303,11 @@ struct CalendarView: View {
                                             
                                         } label: {
                                             ZStack {
+                                                
                                                 RoundedRectangle(cornerRadius: 10)
                                                     .fill(Color(red: 245/255, green: 185/255, blue: 99/255, opacity: 2))
-                                                    .frame(width: 70, height: 55, alignment: .leading)
+                                                    .frame( height: 55, alignment: .leading)
+                                                
                                             }
                                         }
 
@@ -333,8 +320,7 @@ struct CalendarView: View {
                                         .frame(height:60.0)
                                         .frame(width: 3)
                                         .overlay(.gray)
-                                }.frame(width: 71, alignment: .center)
-                                    .border(.red)
+                         
                             }
                                
 
